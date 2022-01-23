@@ -46,11 +46,11 @@ class Instruction extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'author' => 'Author',
-            'release_number' => 'Release Number',
-            'release_date' => 'Release Date',
-            'additional_info' => 'Additional Info',
+            'name' => 'Nazwa',
+            'author' => 'Autor',
+            'release_number' => 'Nr. wydania',
+            'release_date' => 'Data wydania',
+            'additional_info' => 'Wyznaczanie charakterystyk metrologicznych',
         ];
     }
 

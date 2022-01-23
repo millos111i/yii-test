@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Instruction */
 
-$this->title = 'Create Instruction';
-$this->params['breadcrumbs'][] = ['label' => 'Instructions', 'url' => ['index']];
+$this->title = 'Utwórz instrukcję';
+$this->params['breadcrumbs'][] = ['label' => 'Instrukcje', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="instruction-create">
@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'modelsCharacteristic' => $modelsCharacteristic
     ]) ?>
 
 </div>

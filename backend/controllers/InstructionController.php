@@ -3,10 +3,12 @@
 namespace backend\controllers;
 
 use common\models\Instruction;
+use common\models\InstructionCharacteristic;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use backend\models\Model;
 
 /**
  * InstructionController implements the CRUD actions for Instruction model.
@@ -78,17 +80,22 @@ class InstructionController extends Controller
     public function actionCreate()
     {
         $model = new Instruction();
+        $modelsCharacteristic = [new InstructionCharacteristic()];
 
         if ($this->request->isPost) {
+            $modelsCharacteristic = Model::createMultiple(InstructionCharacteristic::classname());
+            Model::loadMultiple($modelsCharacteristic, Yii::$app->request->post());
+
             if ($model->load($this->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
             $model->loadDefaultValues();
         }
-
+        
         return $this->render('create', [
             'model' => $model,
+            'modelsCharacteristic' => (empty($modelsCharacteristic)) ? [new InstructionCharacteristic()] : $modelsCharacteristic
         ]);
     }
 
