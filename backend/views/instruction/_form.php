@@ -71,6 +71,12 @@ rmrevin\yii\fontawesome\AssetBundle::register($this);
                 <tbody class="container-items">
                     <?php foreach ($modelsCharacteristic as $i => $modelCharacteristic): ?>
                         <tr class="item">
+                            <?php
+                                // necessary for update action.
+                                if (! $modelCharacteristic->isNewRecord) {
+                                    echo Html::activeHiddenInput($modelCharacteristic, "[{$i}]id");
+                                }
+                            ?>
                             <td>
                                 <?= $form->field($modelCharacteristic, "[{$i}]name")->textInput(['maxlength' => true])->label(false) ?>
                             </td>

@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use backend\models\Model;
+use yii\helpers\ArrayHelper;
 
 /**
  * InstructionController implements the CRUD actions for Instruction model.
@@ -113,14 +114,30 @@ class InstructionController extends Controller
      */
     public function actionUpdate($id)
     {
+        
         $model = $this->findModel($id);
-
+        $modelsCharacteristic = $model->instructionCharacteristics;
+        
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            $oldIDs = ArrayHelper::map($modelsCharacteristic, 'id', 'id');
+            $modelsCharacteristic = Model::createMultiple(InstructionCharacteristic::classname(), $modelsCharacteristic);
+            Model::loadMultiple($modelsCharacteristic, $this->request->post());
+            $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelsCharacteristic, 'id', 'id')));
+
+            if (! empty($deletedIDs)) {
+                InstructionCharacteristic::deleteAll(['id' => $deletedIDs]);
+            }
+            foreach ($modelsCharacteristic as $modelCharacteristic) {
+                $modelCharacteristic->instruction_id = $model->id;
+                $modelCharacteristic->save();
+            }
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
-
+        
         return $this->render('update', [
             'model' => $model,
+            'modelsCharacteristic' => $modelsCharacteristic
         ]);
     }
 
