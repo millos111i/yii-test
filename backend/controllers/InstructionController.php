@@ -84,9 +84,14 @@ class InstructionController extends Controller
 
         if ($this->request->isPost) {
             $modelsCharacteristic = Model::createMultiple(InstructionCharacteristic::classname());
-            Model::loadMultiple($modelsCharacteristic, Yii::$app->request->post());
+            Model::loadMultiple($modelsCharacteristic, $this->request->post());
 
             if ($model->load($this->request->post()) && $model->save()) {
+                foreach ($modelsCharacteristic as $modelCharacteristic) {
+                    $modelCharacteristic->instruction_id = $model->id;
+                    $modelCharacteristic->save();
+                }
+
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {

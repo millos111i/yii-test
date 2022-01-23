@@ -19,8 +19,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Utwórz instrukcję', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php Pjax::begin(); ?>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
@@ -33,14 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'release_date',
             //'additional_info',
             [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Instruction $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                'class' => ActionColumn::className()
             ],
         ],
     ]); ?>
-
-    <?php Pjax::end(); ?>
 
 </div>

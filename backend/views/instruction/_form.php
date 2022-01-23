@@ -12,32 +12,28 @@ rmrevin\yii\fontawesome\AssetBundle::register($this);
 /* @var $model common\models\Instruction */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-<div class="instruction-form">
-    <div class="mb-5">
-        <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
-        
-        <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+<div class="mb-5">
+    <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
     
-        <div class="row">
-            <div class="col-lg-4">
-                <?= $form->field($model, 'author')->textInput(['maxlength' => true]) ?>
-            </div>
-            <div class="col-lg-4">
-                <?= $form->field($model, 'release_number')->textInput() ?>
-            </div>
-            <div class="col-lg-4">
-                <?= $form->field($model, 'release_date')->widget(DatePicker::classname(), [
-                    'clientOptions' => [
-                        'language' => 'pl_PL',
-                        'dateFormat' => 'yyyy-MM-dd',
-                    ],
-                    'options'=>['class'=>'form-control']
-                ]) ?>
-            </div>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <?= $form->field($model, 'author')->textInput(['maxlength' => true]) ?>
         </div>
-    
-        <?= $form->field($model, 'additional_info')->textArea(['maxlength' => true, 'placeholder' => 'Informacje dodatkowe...']) ?>
+        <div class="col-lg-4">
+            <?= $form->field($model, 'release_number')->textInput() ?>
+        </div>
+        <div class="col-lg-4">
+            <?= $form->field($model, 'release_date')->widget(DatePicker::classname(), [
+                'dateFormat' => 'yyyy-MM-dd',
+                'language' => 'pl_PL',
+                'options'=>['class'=>'form-control']
+            ]) ?>
+        </div>
     </div>
+
+    <?= $form->field($model, 'additional_info')->textArea(['maxlength' => true, 'placeholder' => 'Informacje dodatkowe...']) ?>
     
     <div class="card mb-3">
         <div class="card-header"><h4><?= FA::icon("list") ?> Charakterystyki</h4></div>
@@ -51,7 +47,6 @@ rmrevin\yii\fontawesome\AssetBundle::register($this);
                 'model' => $modelsCharacteristic[0],
                 'formId' => 'dynamic-form',
                 'formFields' => [
-                    'id',
                     'name',
                     'norm_value',
                     'add_tolerance',
@@ -61,52 +56,51 @@ rmrevin\yii\fontawesome\AssetBundle::register($this);
                 ],
             ]); ?>
 
-            <div class="container-items"><!-- widgetContainer -->
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nazwa charakterystyki</th>
-                            <th>Wartość wzorcowa</th>
-                            <th>Tol-</th>
-                            <th>Tol+</th>
-                            <th>Jednostka</th>
-                            <th>Liczba powtórzeń</th>
-                            <th></th>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nazwa charakterystyki</th>
+                        <th>Wartość wzorcowa</th>
+                        <th>Tol-</th>
+                        <th>Tol+</th>
+                        <th>Jednostka</th>
+                        <th>Liczba powtórzeń</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="container-items">
+                    <?php foreach ($modelsCharacteristic as $i => $modelCharacteristic): ?>
+                        <tr class="item">
+                            <td>
+                                <?= $form->field($modelCharacteristic, "[{$i}]name")->textInput(['maxlength' => true])->label(false) ?>
+                            </td>
+                            <td>
+                                <?= $form->field($modelCharacteristic, "[{$i}]norm_value")->textInput(['maxlength' => true])->label(false) ?>
+                            </td>
+                            <td>
+                                <?= $form->field($modelCharacteristic, "[{$i}]add_tolerance")->textInput(['maxlength' => true])->label(false) ?>
+                            </td>
+                            <td>
+                                <?= $form->field($modelCharacteristic, "[{$i}]sub_tolerance")->textInput(['maxlength' => true])->label(false) ?>
+                            </td>
+                            <td>
+                                <?= $form->field($modelCharacteristic, "[{$i}]measure_unit")->textInput(['maxlength' => true])->label(false) ?>
+                            </td>
+                            <td>
+                                <?= $form->field($modelCharacteristic, "[{$i}]number_of_repetition")->textInput(['maxlength' => true])->label(false) ?>
+                            </td>
+                            <td>
+                                <button type="button" class="remove-item btn btn-danger btn-xs"><?= FA::icon("times") ?></button>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody class="item">
-                        <?php foreach ($modelsCharacteristic as $i => $modelCharacteristic): ?>
-                            <tr>
-                                <td>
-                                    <?= $modelCharacteristic->id ?>
-                                </td>
-                                <td>
-                                    <?= $form->field($modelCharacteristic, "[{$i}]name")->textInput(['maxlength' => true])->label(false) ?>
-                                </td>
-                                <td>
-                                    <?= $form->field($modelCharacteristic, "[{$i}]norm_value")->textInput(['maxlength' => true])->label(false) ?>
-                                </td>
-                                <td>
-                                    <?= $form->field($modelCharacteristic, "[{$i}]add_tolerance")->textInput(['maxlength' => true])->label(false) ?>
-                                </td>
-                                <td>
-                                    <?= $form->field($modelCharacteristic, "[{$i}]sub_tolerance")->textInput(['maxlength' => true])->label(false) ?>
-                                </td>
-                                <td>
-                                    <?= $form->field($modelCharacteristic, "[{$i}]measure_unit")->textInput(['maxlength' => true])->label(false) ?>
-                                </td>
-                                <td>
-                                    <?= $form->field($modelCharacteristic, "[{$i}]number_of_repetition")->textInput(['maxlength' => true])->label(false) ?>
-                                </td>
-                                <td>
-
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
+                    <?php endforeach; ?>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td><button type="button" class="add-item btn btn-success text-nowrap"><span class="fa fa-plus"></span> Dodaj charakterystyke</button></td>
+                    </tr>
+                </tfoot>
+            </table>
             <?php DynamicFormWidget::end(); ?>
         </div>
     </div>
