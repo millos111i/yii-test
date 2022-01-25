@@ -90,7 +90,7 @@ rmrevin\yii\fontawesome\AssetBundle::register($this);
                                 <?= $form->field($modelCharacteristic, "[{$i}]sub_tolerance")->textInput(['maxlength' => true])->label(false) ?>
                             </td>
                             <td>
-                                <?= $form->field($modelCharacteristic, "[{$i}]measure_unit")->textInput(['maxlength' => true])->label(false) ?>
+                                <?= $form->field($modelCharacteristic, "[{$i}]measure_unit")->dropDownList($measureUnits)->label(false) ?>
                             </td>
                             <td>
                                 <?= $form->field($modelCharacteristic, "[{$i}]number_of_repetition")->textInput(['maxlength' => true])->label(false) ?>

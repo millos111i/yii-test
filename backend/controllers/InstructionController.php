@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use backend\models\Model;
 use yii\helpers\ArrayHelper;
+use common\models\MeasureUnits;
 
 /**
  * InstructionController implements the CRUD actions for Instruction model.
@@ -82,6 +83,7 @@ class InstructionController extends Controller
     {
         $model = new Instruction();
         $modelsCharacteristic = [new InstructionCharacteristic()];
+        $measureUnits = MeasureUnits::getArray();
 
         if ($this->request->isPost) {
             $modelsCharacteristic = Model::createMultiple(InstructionCharacteristic::classname());
@@ -100,6 +102,7 @@ class InstructionController extends Controller
         }
         
         return $this->render('create', [
+            'measureUnits' => (empty($measureUnits)) ? [new MeasureUnits()] : $measureUnits,
             'model' => $model,
             'modelsCharacteristic' => (empty($modelsCharacteristic)) ? [new InstructionCharacteristic()] : $modelsCharacteristic
         ]);
@@ -114,10 +117,10 @@ class InstructionController extends Controller
      */
     public function actionUpdate($id)
     {
-        
         $model = $this->findModel($id);
         $modelsCharacteristic = $model->instructionCharacteristics;
-        
+        $measureUnits = MeasureUnits::getArray();
+
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             $oldIDs = ArrayHelper::map($modelsCharacteristic, 'id', 'id');
             $modelsCharacteristic = Model::createMultiple(InstructionCharacteristic::classname(), $modelsCharacteristic);
@@ -136,6 +139,7 @@ class InstructionController extends Controller
         }
         
         return $this->render('update', [
+            'measureUnits' => (empty($measureUnits)) ? [new MeasureUnits()] : $measureUnits,
             'model' => $model,
             'modelsCharacteristic' => $modelsCharacteristic
         ]);

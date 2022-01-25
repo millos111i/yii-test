@@ -37,7 +37,8 @@ class InstructionCharacteristic extends \yii\db\ActiveRecord
             [['norm_value', 'add_tolerance', 'sub_tolerance'], 'number'],
             [['number_of_repetition', 'instruction_id'], 'integer'],
             [['instruction_id'], 'required'],
-            [['name', 'measure_unit'], 'string', 'max' => 255],
+            [['name', 'measure_unit'], 'string', 'max' => 255],            
+            ['measure_unit', 'in', 'range' => MeasureUnits::getArray()],
             [['instruction_id'], 'exist', 'skipOnError' => true, 'targetClass' => Instruction::className(), 'targetAttribute' => ['instruction_id' => 'id']],
         ];
     }
